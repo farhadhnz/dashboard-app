@@ -1,36 +1,39 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ChartsModule } from 'ng2-charts';
+import { HighchartsChartModule } from "highcharts-angular";
+import { CountriesMapModule } from 'countries-map';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MapChartComponent } from './map-chart/map-chart.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BarChartComponent } from './bar-chart/bar-chart.component';
-import { DashComponent } from './dash/dash.component';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatCardModule } from '@angular/material/card';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { LayoutModule } from '@angular/cdk/layout';
+import { AutoCompleteComponent } from './auto-complete/auto-complete.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BarChartComponent,
-    DashComponent
+    MapChartComponent,
+    AutoCompleteComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HighchartsChartModule,
+    CountriesMapModule,
     BrowserAnimationsModule,
-    ChartsModule,
-    MatGridListModule,
-    MatCardModule,
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    LayoutModule
+    MatSlideToggleModule,
+    MatFormFieldModule,
+    MatAutocompleteModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
