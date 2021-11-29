@@ -1,6 +1,7 @@
 import { Observable, tap, catchError, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 export interface CovidData{
   id: number,
@@ -15,8 +16,9 @@ export interface CovidData{
 })
 export class CovidcountryService {
   
-  private apiUrl = 'https://localhost:7068/api/coviditems/location/';  // URL to web api
-  private apiUrl_latest = 'https://localhost:7068/api/coviditems/latest';  // URL to web api
+  private API_URL= environment.API_URL;
+  private apiUrl = this.API_URL + 'api/coviditems/location/';  // URL to web api
+  private apiUrl_latest = this.API_URL + 'api/coviditems/latest';  // URL to web api
   covidData: any;
 
   constructor(
