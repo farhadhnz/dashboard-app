@@ -1,6 +1,9 @@
 import { CovidcountryService, CovidData } from './../covidcountry.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CountriesData, ChartSelectEvent, ChartErrorEvent, CountryData } from 'countries-map';
+import { OutputData } from '../tabbed-view/tabbed-view.component';
+
+
 
 @Component({
   selector: 'app-map-chart',
@@ -54,7 +57,7 @@ export class MapChartComponent implements OnInit {
       {
         continue;
       }
-      cd = { value: element.newDeaths };
+      cd = { value: element.newCasesPerMilion };
       countriesData[code2] = cd;
     }
 
@@ -90,8 +93,19 @@ export class MapChartComponent implements OnInit {
     () => {                                   //complete() callback
       console.log('Request completed')      //This is actually not needed 
       this.covidcountryService.logger(this.covidData);
+      let newData = this.covidData.filter(x => x.date > "2021-08-01T00:00:00");
+      this.changeTab(new OutputData(
+        newData.map(c => c.date), newData.map(c => c.newCasesPerMilion), 1
+      ));
       this.loading2 = false; 
     });
+  }
+
+  @Output() changeTabEvent = new EventEmitter<OutputData>();
+
+  changeTab(value: OutputData) {
+    this.changeTabEvent.emit(value);
+    
   }
 
   constructor(private covidcountryService: CovidcountryService) { }

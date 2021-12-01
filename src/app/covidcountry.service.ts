@@ -8,7 +8,10 @@ export interface CovidData{
   location: string,
   newCases: number,
   newDeaths: number,
-  isoCode: string
+  newCasesPerMilion: number,
+  newDeathsPerMilion: number,
+  isoCode: string,
+  date: Date
 }
 
 @Injectable({
@@ -16,13 +19,31 @@ export interface CovidData{
 })
 export class CovidcountryService {
   
+  
   private API_URL= environment.API_URL;
+  private API_URL_P= environment.API_URL_P;
   private apiUrl = this.API_URL + 'api/coviditems/location/';  // URL to web api
+  private apiUrl_prediction = this.API_URL_P + 'api/v1/predict';  // URL to web api
   private apiUrl_latest = this.API_URL + 'api/coviditems/latest';  // URL to web api
   covidData: any;
 
   constructor(
     private http: HttpClient) { }
+
+    header_node = {
+      headers: new HttpHeaders(
+          { 'Accept': 'application/json',
+          'rejectUnauthorized': 'false' })
+      };
+
+  getPrediction(strIndex: number, country: string, variables: string[]): Observable<any[]> {
+    const url = this.apiUrl_prediction;
+    const body = ({
+      country: country,
+      strIndex: strIndex,
+      variables: variables});
+    return this.http.post<any[]>(url,  body);
+  }
 
   getCovidData(id: string): Observable<any[]> {
     const url = this.apiUrl + id;
@@ -54,6 +75,7 @@ export class CovidcountryService {
   }
 
   getCountryCode3(countryName: string): string {
+    console.log(countryName);
     const countryCode3 = this.countryList.filter(c => c.name == countryName)[0].code3;
     return countryCode3;
   }

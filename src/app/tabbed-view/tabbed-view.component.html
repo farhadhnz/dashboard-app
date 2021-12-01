@@ -1,8 +1,12 @@
-<mat-tab-group mat-align-tabs="start">
-    <mat-tab label="Map">
+<mat-tab-group [(selectedIndex)]="displayIndex" mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4">
+    <mat-tab (click)="mapClick()" label="Map">
         <app-auto-complete></app-auto-complete>
-        <app-map-chart></app-map-chart>
+        <app-map-chart (changeTabEvent)="changeTab($event)"></app-map-chart>
     </mat-tab>
-    <mat-tab label="Chart">Content 2</mat-tab>
-    <mat-tab label="Table">Content 3</mat-tab>
+    <mat-tab label="Chart">
+        <app-line-chart [dataLabels]="countryDataLabels" [dataValues]="countryDataValues"></app-line-chart>
+    </mat-tab>
+    <mat-tab label="Prediction" class="parentCenter">
+        <app-prediction></app-prediction>
+    </mat-tab>
   </mat-tab-group>

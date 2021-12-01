@@ -1,0 +1,35 @@
+<!-- <app-simple-auto-complete></app-simple-auto-complete> -->
+<div class="example-container">
+  <mat-form-field appearance="fill">
+    <mat-label>Stringency Index</mat-label>
+    <input matInput [(ngModel)]="strIndex">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Select</mat-label>
+    <mat-select [(value)]="country">
+      <mat-option value="France">France</mat-option>
+      <mat-option value="Poland">Poland</mat-option>
+      <mat-option value="Netherlands (the)">Netherlands</mat-option>
+      <mat-option value="Belgium">Belgium</mat-option>
+      <mat-option value="Czechia">Czechia</mat-option>
+      <mat-option value="Italy">Italy</mat-option>
+      <mat-option value="Portugal">Portugal</mat-option>
+    </mat-select>
+  </mat-form-field >
+  <mat-selection-list [(ngModel)]="variableList" >
+    <mat-list-option selected="true" *ngFor="let variable of variables" [value]="variable[0]">
+      {{variable[1]}}
+    </mat-list-option>
+  </mat-selection-list>
+</div>
+
+<button class="card" mat-raised-button color="primary" (click)="onSubmit()">Predict</button>
+
+<!-- <mat-list role="list">
+  <mat-list-item *ngFor="let item of listItems" role="listitem">{{item}}</mat-list-item>
+</mat-list> -->
+
+
+<app-line-chart [dataLabelsPredict]="countryDataLabelsPrediction" [dataValuesPredict]="countryDataValuesPrediction"
+[dataLabels]="countryDataLabels" [dataValues]="countryDataValues"></app-line-chart>
+
