@@ -1,10 +1,10 @@
-<mat-tab-group [(selectedIndex)]="displayIndex" mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4">
+<mat-tab-group (selectedTabChange)="selectedTabChanged()" [(selectedIndex)]="displayIndex" mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4">
     <mat-tab (click)="mapClick()" label="Map">
-        <app-auto-complete></app-auto-complete>
+        <!-- <app-auto-complete></app-auto-complete> -->
         <app-map-chart (changeTabEvent)="changeTab($event)"></app-map-chart>
     </mat-tab>
-    <mat-tab label="Chart">
-        <app-line-chart [dataLabels]="countryDataLabels" [dataValues]="countryDataValues"></app-line-chart>
+    <mat-tab (click)="lineChartClick()" label="Chart">
+        <app-line-chart  [dataValuesCountry]="countryData" [dataLabels]="countryDataLabels" ></app-line-chart>
     </mat-tab>
     <mat-tab label="Prediction" class="parentCenter">
         <app-prediction></app-prediction>

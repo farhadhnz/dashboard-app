@@ -1,0 +1,19 @@
+<label>Maximum Population</label>
+<mat-slider
+  thumbLabel
+  [displayWith]="formatLabel"
+  tickInterval="1000000"
+  step="1000000"
+  min="1000000"
+  max="1000000000"
+  aria-label="units"></mat-slider>
+
+  <label>Minimum GDP</label>
+<mat-slider
+  thumbLabel
+  [displayWith]="formatLabelGdp"
+  tickInterval="10000"
+  step="10000"
+  min="0"
+  max="2000000"
+  aria-label="units"></mat-slider>

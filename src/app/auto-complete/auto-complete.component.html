@@ -5,8 +5,8 @@
              aria-label="State"
              [matAutocomplete]="auto"
              [formControl]="countryCtrl">
-      <mat-autocomplete #auto="matAutocomplete" (optionSelected)='getCountryData($event.option.value)'>
-        <mat-option *ngFor="let state of filteredCountries | async" [value]="state.name">
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)='checkCountryInList($event.option.value)'>
+        <mat-option *ngFor="let state of filteredCountries | async" [value]="state">
           <!-- <img class="example-option-img" aria-hidden [src]="state.flag" height="25"> -->
           <span>{{state.name}}</span> 
           <!-- | -->
@@ -28,4 +28,16 @@
       Disable Input?
     </mat-slide-toggle> -->
   </form>
+
+  <mat-selection-list (selectionChange)="countryListSelectedChange($event.option.value)" #countrySelectionList>
+    <mat-list-option selected="true" *ngFor="let country of countryListSelected" [value]="country">
+      {{country.name}}
+    </mat-list-option>
+  </mat-selection-list>
+
+  <mat-selection-list (selectionChange)="countryListChange($event.option.value)" #countrySelectionList>
+    <mat-list-option *ngFor="let country of countryList" [value]="country">
+      {{country.name}}
+    </mat-list-option>
+  </mat-selection-list>
   

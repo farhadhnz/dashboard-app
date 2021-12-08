@@ -13,6 +13,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { ChartModule } from 'angular2-chartjs';
 import {MatButtonModule} from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSliderModule } from '@angular/material/slider';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -24,6 +28,9 @@ import { TabbedViewComponent } from './tabbed-view/tabbed-view.component';
 import { LineChartComponent } from './line-chart/line-chart.component';
 import { PredictionComponent } from './prediction/prediction.component';
 import { SimpleAutoCompleteComponent } from './simple-auto-complete/simple-auto-complete.component';
+import { FarhadMapComponent } from './farhad-map/farhad-map.component';
+import { ChartInputsComponent } from './chart-inputs/chart-inputs.component';
+import { FiltersComponent } from './filters/filters.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +40,10 @@ import { SimpleAutoCompleteComponent } from './simple-auto-complete/simple-auto-
     TabbedViewComponent,
     LineChartComponent,
     PredictionComponent,
-    SimpleAutoCompleteComponent
+    SimpleAutoCompleteComponent,
+    FarhadMapComponent,
+    ChartInputsComponent,
+    FiltersComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +62,11 @@ import { SimpleAutoCompleteComponent } from './simple-auto-complete/simple-auto-
     ChartModule,
     MatSelectModule,
     MatButtonModule,
-    MatListModule
+    MatListModule,
+    FlexLayoutModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]
