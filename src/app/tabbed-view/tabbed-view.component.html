@@ -4,7 +4,7 @@
         <app-map-chart [endDate]="endDate" [metric]="metric" [populationMax]="populationMax" [gdpMin]="gdpMin" (changeTabEvent)="changeTab($event)"></app-map-chart>
     </mat-tab>
     <mat-tab label="Chart">
-        <app-line-chart [endDate]="endDate" [metric]="metric" [countryList]="countryDataInput"></app-line-chart>
+        <app-wrapper-line-chart [endDate]="endDate" [metric]="metric" [countryList]="countryDataInput"></app-wrapper-line-chart>
     </mat-tab>
     <mat-tab label="Prediction" class="parentCenter">
         <app-prediction></app-prediction>

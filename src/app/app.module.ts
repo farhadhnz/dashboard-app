@@ -18,7 +18,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSliderModule } from '@angular/material/slider';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-
+import { NgxEchartsModule } from 'ngx-echarts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -32,6 +32,7 @@ import { SimpleAutoCompleteComponent } from './simple-auto-complete/simple-auto-
 import { FarhadMapComponent } from './farhad-map/farhad-map.component';
 import { ChartInputsComponent } from './chart-inputs/chart-inputs.component';
 import { FiltersComponent } from './filters/filters.component';
+import { WrapperLineChartComponent } from './wrapper-line-chart/wrapper-line-chart.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { FiltersComponent } from './filters/filters.component';
     SimpleAutoCompleteComponent,
     FarhadMapComponent,
     ChartInputsComponent,
-    FiltersComponent
+    FiltersComponent,
+    WrapperLineChartComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +70,9 @@ import { FiltersComponent } from './filters/filters.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSliderModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts'), }),
   ],
   providers: [],
   bootstrap: [AppComponent]

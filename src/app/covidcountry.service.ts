@@ -41,7 +41,7 @@ export class CovidcountryService {
           'rejectUnauthorized': 'false' })
       };
 
-  getPrediction(strIndex: number, country: string, variables: string[]): Observable<any[]> {
+  getPrediction(strIndex: number, country: string, variables: number[]): Observable<any[]> {
     const url = this.apiUrl_prediction;
     const body = ({
       country: country,

@@ -9,27 +9,49 @@
     <mat-select [(value)]="country">
       <mat-option value="France">France</mat-option>
       <mat-option value="Poland">Poland</mat-option>
-      <mat-option value="Netherlands (the)">Netherlands</mat-option>
+      <mat-option value="Netherlands">Netherlands</mat-option>
       <mat-option value="Belgium">Belgium</mat-option>
       <mat-option value="Czechia">Czechia</mat-option>
       <mat-option value="Italy">Italy</mat-option>
       <mat-option value="Portugal">Portugal</mat-option>
     </mat-select>
   </mat-form-field >
-  <mat-selection-list [(ngModel)]="variableList" >
+  <mat-form-field appearance="fill">
+    <mat-label>Population Density</mat-label>
+    <input matInput [(ngModel)]="populationDensity">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>GDP per Capita</mat-label>
+    <input matInput [(ngModel)]="gdpPerCapita">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Diabetes Prevalence</mat-label>
+    <input matInput [(ngModel)]="diabetesPrevalence">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Life Expectancy</mat-label>
+    <input matInput [(ngModel)]="lifeExpectancy">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Smokers</mat-label>
+    <input matInput [(ngModel)]="smokers">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Hospital Beds per Thousand</mat-label>
+    <input matInput [(ngModel)]="hospitalBedsPerThousand">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Air Pollution Index</mat-label>
+    <input matInput [(ngModel)]="airPollutionIndex">
+  </mat-form-field>
+  <!-- <mat-selection-list [(ngModel)]="variableList" >
     <mat-list-option selected="true" *ngFor="let variable of variables" [value]="variable[0]">
       {{variable[1]}}
     </mat-list-option>
-  </mat-selection-list>
+  </mat-selection-list> -->
 </div>
 
 <button class="card" mat-raised-button color="primary" (click)="onSubmit()">Predict</button>
 
-<!-- <mat-list role="list">
-  <mat-list-item *ngFor="let item of listItems" role="listitem">{{item}}</mat-list-item>
-</mat-list> -->
-
-
-<app-line-chart [dataLabelsPredict]="countryDataLabelsPrediction" [dataValuesPredict]="countryDataValuesPrediction"
-[dataLabels]="countryDataLabels" [dataValues]="countryDataValues"></app-line-chart>
+<app-line-chart *ngIf="!loading" [data]="chartOption" [chartOption]="chartOption"></app-line-chart>
 

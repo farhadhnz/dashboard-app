@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { CovidcountryService } from '../covidcountry.service';
 
@@ -13,8 +14,15 @@ export class PredictionComponent implements OnInit {
   countryDataValuesPrediction : number[] = [];
   countryDataLabelsPrediction : string[] = [];
   strIndex: number = 50;
+  populationDensity: number = 1;
+  gdpPerCapita: number = 1;
+  diabetesPrevalence: number = 1;
+  lifeExpectancy: number = 1;
+  smokers: number = 1;
+  hospitalBedsPerThousand: number = 1;
+  airPollutionIndex: number = 1;
   country: string = '';
-  variableList : string[] = [];
+  variableList : number[] = [];
   predictionData: any;
   covidData: any[] = [];
   listItems: any = [];
@@ -23,13 +31,18 @@ export class PredictionComponent implements OnInit {
                 ["life_expectancy", "Life Expectancy"], ["human_development_index", "Human Development Index"], ["smokers", "Smokers"], 
                 ["AirPolutioIndex", "Air Polution Index"]
               ];
+  chartOption: any = {};
+  loading: boolean = true;
   constructor(private service: CovidcountryService) { }
 
   ngOnInit(): void {
   }
 
   onSubmit(){
-    this.service.getPrediction(this.strIndex, this.country, this.variableList)
+    this.loading = true;
+    let newVariables = [Number(this.populationDensity), Number(this.gdpPerCapita), Number(this.diabetesPrevalence), 
+      Number(this.lifeExpectancy), Number(this.smokers), Number(this.hospitalBedsPerThousand), Number(this.airPollutionIndex)];
+    this.service.getPrediction(this.strIndex, this.country, newVariables)
       .subscribe(response => {
         this.predictionData = response; 
     },
@@ -57,7 +70,40 @@ export class PredictionComponent implements OnInit {
       this.countryDataValues = newData.map(c => c.newCasesPerMilion);
       this.countryDataLabels = newData.map(c => c.date);
       this.countryDataLabelsPrediction = this.createNextDates();
-      this.service.logger(this.countryDataLabelsPrediction);
+
+      this.chartOption = {
+        xAxis: {
+          // type: 'category',
+          boundaryGap: false,
+          data: this.countryDataLabels.concat(this.countryDataLabelsPrediction).map((d: string | number | Date) => (formatDate(d, 'dd/MM/yyyy', 'en-EN'))),
+        },
+        yAxis: {
+          type: 'value',
+        },
+        legend: {
+          data : [this.country]
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        series: [{
+          data: this.countryDataValues.concat(this.countryDataValuesPrediction),
+          type: 'line',
+          name: this.country
+        }],
+      };
+      this.loading = false;
     });
   }
 

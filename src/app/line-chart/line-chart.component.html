@@ -1,4 +1,6 @@
-<div style="width:600px;height:600px">
+<!-- <div style="width:600px;height:600px">
     <chart *ngIf="data && data.datasets.length > 0" class="dashchart" [type]="type" [data]="data" 
     [options]="options"></chart>
-</div>
+</div> -->
+
+<div echarts [options]="chartOption" class="demo-chart"></div>
