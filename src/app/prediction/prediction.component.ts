@@ -17,7 +17,7 @@ export class PredictionComponent implements OnInit {
   variableList : string[] = [];
   predictionData: any;
   covidData: any[] = [];
-  listItems = [];
+  listItems: any = [];
   variables = [ ["population", "Population"], ["population_density", "Population Density"], ["gdp_per_capita", "GDP per Capita"], 
                 ["cardiovasc_death_rate", "Cardiovascular Death Rate"], ["diabetes_prevalence", "Diabetes Prevalence"], 
                 ["life_expectancy", "Life Expectancy"], ["human_development_index", "Human Development Index"], ["smokers", "Smokers"], 

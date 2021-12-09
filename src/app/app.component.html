@@ -351,12 +351,19 @@
 
   </div>
 
-  <app-filters></app-filters>
+  <app-filters #filters></app-filters>
   <app-chart-inputs #chartInput></app-chart-inputs>
   <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
-    <app-auto-complete fxFlex="20%" #autocomplete></app-auto-complete>
-    <app-tabbed-view [metric]="chartInput.selectedVerticalOption" [countryDataInput]="autocomplete.countryListSelected" 
-    [dateRange]="chartInput.campaignOne" fxFlex="80%"></app-tabbed-view>
+    <app-auto-complete fxFlex="20%" #autocomplete [populationMax]="filters.populationValue"
+    [gdpMin]="filters.gdpValue"></app-auto-complete>
+    <app-tabbed-view 
+    [metric]="chartInput.selectedVerticalOption" 
+    [countryDataInput]="autocomplete.countryListSelected" 
+    [dateRange]="chartInput.campaignOne"
+    [populationMax]="filters.populationValue"
+    [gdpMin]="filters.gdpValue"
+    [endDate]="chartInput.endDate"
+    fxFlex="80%"></app-tabbed-view>
   </div>
 
 

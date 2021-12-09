@@ -2,6 +2,7 @@ import { Observable, tap, catchError, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { map } from 'rxjs';
 
 export interface CovidData{
   id: number,
@@ -18,6 +19,9 @@ export interface CovidData{
   providedIn: 'root'
 })
 export class CovidcountryService {
+
+
+  
   
   
   private API_URL= environment.API_URL;
@@ -25,6 +29,7 @@ export class CovidcountryService {
   private apiUrl = this.API_URL + 'api/coviditems/location/';  // URL to web api
   private apiUrl_prediction = this.API_URL_P + 'api/v1/predict';  // URL to web api
   private apiUrl_latest = environment.API_URL + 'api/coviditems/latest';  // URL to web api
+  private apiUrl_latest_filtered = environment.API_URL + 'api/coviditems/latestfiltered/';  // URL to web api
   covidData: any;
 
   constructor(
@@ -55,8 +60,16 @@ export class CovidcountryService {
     );
   }
 
-  getCovidDataLatest(): Observable<any[]> {
-    const url = this.apiUrl_latest;
+  getCovidDataLatest(endDate: string ): Observable<any[]> {
+    const url = this.apiUrl_latest + "?endDate=" + endDate;
+    return this.http.get<any[]>(url);
+  }
+
+  getCovidDataLatestFiltered(populationMax: number, gdpMin: number): Observable<any[]> {
+    const url = this.apiUrl_latest_filtered + "?gdp="+ gdpMin + "&population=" + populationMax;
+    let headers = new HttpHeaders();
+    headers.append("population", populationMax.toString());
+    headers.append("gdp", gdpMin.toString());
     return this.http.get<any[]>(url);
   }
 

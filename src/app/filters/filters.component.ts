@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FiltersComponent implements OnInit {
 
+  gdpValue : number = 10000;
+  populationValue : number = 100000000;
+
   formatLabel(value: number) {
     if (value >= 1000000) {
       return Math.round(value / 1000000) + 'M';

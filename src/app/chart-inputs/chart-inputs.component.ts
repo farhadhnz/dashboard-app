@@ -12,6 +12,7 @@ export class ChartInputsComponent implements OnInit {
   selectedVerticalOption = 'New Cases per Million';
   pickerFrom = Date();
   pickerTo = Date();
+  endDate: any;
 
   campaignOne: FormGroup;
 
@@ -26,7 +27,9 @@ export class ChartInputsComponent implements OnInit {
     });
   }
 
+
   ngOnInit(): void {
+    this.endDate = new Date(2021, 10, 15);
   }
 
 }

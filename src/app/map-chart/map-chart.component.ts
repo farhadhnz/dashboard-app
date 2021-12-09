@@ -1,9 +1,7 @@
 import { CovidcountryService, CovidData } from './../covidcountry.service';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { CountriesData, ChartSelectEvent, ChartErrorEvent, CountryData } from 'countries-map';
 import { OutputData } from '../tabbed-view/tabbed-view.component';
-
-
 
 @Component({
   selector: 'app-map-chart',
@@ -12,35 +10,50 @@ import { OutputData } from '../tabbed-view/tabbed-view.component';
 })
 export class MapChartComponent implements OnInit {
 
+  @Input() populationMax : number = 0;
+  @Input() gdpMin : number = 0;
+  @Input() metric : string;
+  @Input() endDate: any;
+
   chartConstructor = "mapChart";
-  chartData = [{ code3: "ABW", z: 105 }, { code3: "AFG", z: 35530 }];
+  chartData : any[] = [];
   updateFlag = false;
 
   public mapData : CountriesData = {};
   loading: boolean = false;
-  updatedData: CovidData[] = [];
+  updatedData: any[] = [];
   covidData: any[] = [];
   loading2: boolean = false;
 
-  getCountryData(): void {
+  getCountryData(populationMax: number, gdpMin: number): void {
     this.loading = true;
-    this.covidcountryService.getCovidDataLatest()
+    this.covidcountryService.getCovidDataLatestFiltered(populationMax, gdpMin)
       .subscribe(response => {
-        console.log('map response received');
         this.updatedData = response; 
     },
     (error) => {                              //error() callback
-      console.error('Request failed with error')
-      // this.errorMessage = error;
-      this.loading = false;
+      // this.loading = false;
     },
     () => {                                   //complete() callback
-      console.log('map request completed')      //This is actually not needed 
-      // this._logger(this.covidData);
+      // this.loading = false; 
+      console.log(this.updatedData);
+    });
+  }
+
+  getCountryDataLatest(): void {
+    this.loading = true;
+    this.covidcountryService.getCovidDataLatest((this.endDate as Date).toISOString())
+      .subscribe(response => {
+        this.chartData = response;  
+    },
+    (error) => {    
       this.loading = false; 
-      // console.log(this.updatedData);
+    },
+    () => {  
+      this.chartData = this.chartData.filter(n => n !== null);
       this.updateData();
-      console.log(this.mapData);
+      this.loading = false;
+
     });
   }
 
@@ -50,23 +63,38 @@ export class MapChartComponent implements OnInit {
     let cd: CountryData;
     for (let i = 0; i < this.updatedData.length; i++) {
       const element = this.updatedData[i];
-      // console.log(element.location);
-      code2 = this.covidcountryService.getCountryCode2ByCode3(element.isoCode);
-      // if (code2 === "" || element.newDeaths < 0 || element.newCases > 5000)
-      if (code2 === "" || element.newDeaths < 0)
+      let vv = this.chartData.filter(x => x.location == element.name)[0];
+      code2 = this.covidcountryService.getCountryCode2(element.name);
+
+      if (code2 === "" || vv == undefined || vv.newDeaths < 0)
       {
         continue;
       }
-      cd = { value: element.newCasesPerMilion };
+      let par = this.getParameter();
+      cd = { value: vv[par] };
       countriesData[code2] = cd;
     }
 
     this.mapData = countriesData;
   }
 
-  errorLoading = null;
+  getParameter(){
+    switch (this.metric) {
+      case "New Cases per Million":
+        return 'newCasesPerMilion';
+      case "New Cases":
+        return 'newCasesPerMilion';
+      case "New Deaths":
+        return 'newDeaths';
+      case "New Deaths per Million":
+        return 'newDeathsPerMilion';
+      default:
+        return 'newCasesPerMilion';
+    }
+  }
+
+  errorLoading: any = null;
   mapError(error: ChartErrorEvent): void {
-    // this.errorLoading = error;
   }
   mapReady(): void {
     console.log('Map ready');
@@ -87,7 +115,6 @@ export class MapChartComponent implements OnInit {
     },
     (error) => {                              //error() callback
       console.error('Request failed with error')
-      // this.errorMessage = error;
       this.loading2 = false;
     },
     () => {                                   //complete() callback
@@ -114,8 +141,16 @@ export class MapChartComponent implements OnInit {
 
   constructor(private covidcountryService: CovidcountryService) { }
 
+  ngOnChanges(): void {
+    this.getCountryData(this.populationMax, this.gdpMin);
+    this.getCountryDataLatest();
+    // this.updateData();
+  }
+
   ngOnInit(): void {
-    this.getCountryData();
+    this.getCountryData(this.populationMax, this.gdpMin);
+    this.getCountryDataLatest();
+    // this.updateData();
   }
 
 }

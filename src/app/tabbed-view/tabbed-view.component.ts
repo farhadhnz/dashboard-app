@@ -27,6 +27,9 @@ export class TabbedViewComponent implements OnInit, OnChanges {
   @Input() countryDataInput: Country[] = [];
   @Input() metric: string = '';
   @Input() dateRange: FormGroup;
+  @Input() populationMax: number;
+  @Input() gdpMin: number;
+  @Input() endDate: any;
   countryData: OutputData[] = [];
   countryDataLabels: string[] = [];
   displayIndex = 0;
@@ -37,12 +40,14 @@ export class TabbedViewComponent implements OnInit, OnChanges {
       start : new FormControl(new Date(2021, 12 - 11, 1)),
       end : new FormControl(new Date(2021, 11, 15))
     });
+    this.populationMax = 0;
+    this.gdpMin = 0;
   }
   
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
     this.generalChanges = changes;
-    this.lineChartClick();
+    // this.lineChartClick();
   }
 
   ngOnInit(): void {

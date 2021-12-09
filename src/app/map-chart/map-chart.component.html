@@ -2,11 +2,17 @@
     <h1>countries-map demo</h1>
   </div>
   <h2>Map with data</h2> -->
+  <div >
+    Date:  {{ endDate }}
+  </div>
+  <div class="loading">
+    <mat-spinner class="loading-content" *ngIf="loading"></mat-spinner>
+  </div>
   <div class="mapchart">
     <countries-map *ngIf="!loading"
       class="demo-maps"
       [data]="mapData"
-      minColor="white"
+      minColor="yellow"
       maxColor="red"
       (chartSelect)="select($event)"
       (chartError)="mapError($event)"

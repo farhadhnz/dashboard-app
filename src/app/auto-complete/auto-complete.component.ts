@@ -1,5 +1,5 @@
 import { CovidcountryService, CovidData } from './../covidcountry.service';
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
@@ -19,11 +19,14 @@ export interface Country {
   styleUrls: ['./auto-complete.component.css']
 })
 export class AutoCompleteComponent implements OnInit {
+  @Input() populationMax : number = 0;
+  @Input() gdpMin : number = 0;
+
   countryCtrl = new FormControl();
-  filteredCountries: Observable<Country[]>;
+  filteredCountries: Observable<any[]>;
   covidData : any[];
   countryListSelected : Country[] = [];
-  countryList : Country[];
+  countryList : any[];
   
 
   loading: boolean = false;
@@ -34,33 +37,30 @@ export class AutoCompleteComponent implements OnInit {
   constructor(private covidcountryService: CovidcountryService) { 
     this.covidData = [];
     this.errorMessage = "";
-    this.countryList = this.covidcountryService.getCountryList();
-    this.filteredCountries = this.countryCtrl.valueChanges.pipe(
-      startWith(''),
-      map(country => (country.name ? this._filterStates(country.name) : this.countryList.slice())),
-    );
+   
+    
   }
 
   private _filterStates(value: string): Country[] {
     const filterValue = value.toLowerCase();
-    return this.countryList.filter(c => c.name.toLowerCase().includes(filterValue));
+    return this.countryList.filter(c => c.toLowerCase().includes(filterValue));
   }
 
-  checkCountryInList(value: Country): void {
-    this.countryListSelected.push(value);
-    let xx = this.countryList.filter(x => x.name == value.name)[0];
-    this.countryList.splice(this.countryList.indexOf(xx), 1);
+  // checkCountryInList(value: Country): void {
+  //   this.countryListSelected.push(value);
+  //   let xx = this.countryList.filter(x => x.name == value.name)[0];
+  //   this.countryList.splice(this.countryList.indexOf(xx), 1);
 
-    this.countryListSelected = this.countryListSelected.slice();
-    // for (let i = 0; i < this.countryList.length; i++) {
-    //   const country = this.countryList[i];
-    //   if (value == country.name)
-    //   {
-    //     this._checkCountry(value);
-    //     break;
-    //   }
-    // }
-  }
+  //   this.countryListSelected = this.countryListSelected.slice();
+  //   // for (let i = 0; i < this.countryList.length; i++) {
+  //   //   const country = this.countryList[i];
+  //   //   if (value == country.name)
+  //   //   {
+  //   //     this._checkCountry(value);
+  //   //     break;
+  //   //   }
+  //   // }
+  // }
 
   countryListSelectedChange(value: Country): void {
     this.countryList.push(value);
@@ -89,18 +89,17 @@ export class AutoCompleteComponent implements OnInit {
     this.loading = true;
     this.covidcountryService.getCovidData(this.getCountryCode3(value))
       .subscribe(response => {
-        console.log('response received');
         this.covidData = response; 
     },
     (error) => {                              //error() callback
-      console.error('Request failed with error')
-      this.errorMessage = error;
       this.loading = false;
     },
     () => {                                   //complete() callback
-      console.log('Request completed')      //This is actually not needed 
-      this._logger(this.covidData);
       this.loading = false; 
+      this.filteredCountries = this.countryCtrl.valueChanges.pipe(
+        startWith(''),
+        map(country => (country ? this._filterStates(country) : this.countryList.slice())),
+      );
     });
   }
 
@@ -116,7 +115,22 @@ export class AutoCompleteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+    this.getCountriesFiltered();
+  }
+
+  ngOnChanges(): void{
+    this.getCountriesFiltered();
+  }
+
+  getCountriesFiltered(){
+    this.covidcountryService.getCovidDataLatestFiltered(this.populationMax, this.gdpMin).subscribe({
+      next: (v) => {
+        this.loading = true;
+        this.countryList = v},
+      error: (e) => console.error(e),
+      complete: () => this.loading = false 
+  });
+
   }
 
   getCountryDataEach(value: string): void {

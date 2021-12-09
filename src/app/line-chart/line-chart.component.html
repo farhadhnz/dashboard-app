@@ -1,4 +1,4 @@
 <div style="width:600px;height:600px">
-    <chart *ngIf="dataValuesCountry && dataValuesCountry.length > 0" class="dashchart" [type]="type" [data]="data" 
+    <chart *ngIf="data && data.datasets.length > 0" class="dashchart" [type]="type" [data]="data" 
     [options]="options"></chart>
 </div>
