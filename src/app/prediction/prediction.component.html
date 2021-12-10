@@ -52,6 +52,7 @@
 </div>
 
 <button class="card" mat-raised-button color="primary" (click)="onSubmit()">Predict</button>
+<button class="card" mat-raised-button color="info" (click)="loading = !loading">Show Chart</button>
 
 <app-line-chart *ngIf="!loading" [data]="chartOption" [chartOption]="chartOption"></app-line-chart>
 

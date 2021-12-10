@@ -1,4 +1,4 @@
 {
     "appService.defaultWebAppToDeploy": "/subscriptions/5cf7aeed-80f9-491c-97fc-4e60b5b53a1c/resourceGroups/DataProcessing/providers/Microsoft.Web/sites/covidanalytics",
-    "appService.deploySubpath": "dist\\dashboard-app"
+    "appService.deploySubpath": "distt"
 }

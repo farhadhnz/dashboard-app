@@ -39,6 +39,7 @@ export class PredictionComponent implements OnInit {
   }
 
   onSubmit(){
+    this.chartOption = null;
     this.loading = true;
     let newVariables = [Number(this.populationDensity), Number(this.gdpPerCapita), Number(this.diabetesPrevalence), 
       Number(this.lifeExpectancy), Number(this.smokers), Number(this.hospitalBedsPerThousand), Number(this.airPollutionIndex)];
@@ -71,6 +72,7 @@ export class PredictionComponent implements OnInit {
       this.countryDataLabels = newData.map(c => c.date);
       this.countryDataLabelsPrediction = this.createNextDates();
 
+      console.log(this.countryDataValues.concat(this.countryDataValuesPrediction));
       this.chartOption = {
         xAxis: {
           // type: 'category',
@@ -103,7 +105,7 @@ export class PredictionComponent implements OnInit {
           name: this.country
         }],
       };
-      this.loading = false;
+      // this.loading = false;
     });
   }
 
